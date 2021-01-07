@@ -19,12 +19,14 @@ function setup() {
 	world=engine.world;
 	
 	var package_option={
-		isStatic:true
+		isStatic : true,
+		restitution : 0.2,
+		friction : 1.2
 	}
 
 	
 
-	packageSprite=createSprite(width/2, 80, 10,10);
+	packageSprite=createSprite(width/2, 200, 10,10);
 	packageSprite.addImage(packageIMG)
 	packageSprite.scale=0.2
 
@@ -39,15 +41,16 @@ function setup() {
 	world = engine.world;
     
 	var ground_option={
-		restitution : 0.2,
-		friction : 1.2
+		isStatic : true,
 	}
+
 	
-	packageBody = Bodies.circle(width/2 , 200 , 5 , ground_option);
+	
+	packageBody = Bodies.rectangle(width/2 , 350 , 5 , package_option);
 	World.add(world, packageBody);
 
 	//Create a Ground
-	ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
+	ground = Bodies.rectangle(width/2, 650, width, 10 , ground_option);
 	 World.add(world, ground);
 	 
 	 	
@@ -60,22 +63,23 @@ function draw() {
   rectMode(CENTER);
   background(0);
 
-  rect(ground.position.x, ground.position.y, width, 10);
+Engine.update(engine);
 
-  //if(rightPressed) {
-    //packageBody.velocity = 2
-  //}
-  
+  rect(ground.position.x, ground.position.y, width, 10);
+  //rect(packageBody.position.x, packageBody.position.y, width/2, 200);
+  //packageSprite.x = packageBody.position.x
+  //packageSprite.y = packageBody.position.y
+
   drawSprites();
   keyPressed();
  
 }
 
 function keyPressed() {
- if (keyDown === DOWN_ARROW) {
+ if (keyCode === DOWN_ARROW) {
 	// Look at the hints in the document and understand how to make the package body fall only on press of the Down arrow key.
 
-    packageBody.position.x += 7;
+    Matter.Body.setStatic(packageBody,false);
 
   }
 }
