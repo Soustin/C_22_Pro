@@ -15,16 +15,6 @@ function preload()
 function setup() {
 	createCanvas(800, 700);
 	rectMode(CENTER);
-	engine=Engine.create();
-	world=engine.world;
-	
-	var package_option={
-		isStatic : true,
-		restitution : 0.2,
-		friction : 1.2
-	}
-
-	
 
 	packageSprite=createSprite(width/2, 200, 10,10);
 	packageSprite.addImage(packageIMG)
@@ -46,7 +36,7 @@ function setup() {
 
 	
 	
-	packageBody = Bodies.rectangle(width/2 , 350 , 5 , package_option);
+	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.4, isStatic:true});
 	World.add(world, packageBody);
 
 	//Create a Ground
@@ -65,10 +55,8 @@ function draw() {
 
 Engine.update(engine);
 
-  rect(ground.position.x, ground.position.y, width, 10);
-  //rect(packageBody.position.x, packageBody.position.y, width/2, 200);
-  //packageSprite.x = packageBody.position.x
-  //packageSprite.y = packageBody.position.y
+  packageSprite.x = packageBody.position.x
+  packageSprite.y = packageBody.position.y
 
   drawSprites();
   keyPressed();
